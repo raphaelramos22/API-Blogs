@@ -1,6 +1,6 @@
 module.exports = (err, _req, res, _next) => {
-  const { name, message } = err;
-  switch (name) {
+  const { code, message } = err;
+  switch (code) {
     case 'ValidationError':
       res.status(400).json({ message });
       break;
