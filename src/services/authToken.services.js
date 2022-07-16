@@ -1,7 +1,6 @@
 const JWT = require('./jwt.services');
 
 const authToken = (req, _res, next) => {
-  console.log(req.user);
   const { authorization } = req.headers;
 
   try {

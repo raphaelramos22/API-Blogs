@@ -32,12 +32,25 @@ const userCreate = async (displayName, email, password, image) => {
 
 const userAll = async () => {
   const result = await User.findAll({
-    attributes: ['id', 'displayName', 'email', 'image'],
+    attributes: { exclude: ['password'] },
   });
+  return result;
+};
+
+const userId = async (id) => {
+  const result = await User.findOne({ where: { id }, attributes: { exclude: ['password'] } });
+
+  if (!result) {
+    const e = new Error('User does not exist');
+    e.code = 'NotFoundError';
+    throw e;
+  }
+
   return result;
 };
 
 module.exports = {
   userCreate,
   userAll,
+  userId,
 };
