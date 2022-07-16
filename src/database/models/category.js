@@ -1,5 +1,5 @@
 const createCategoryModel = (sequelize, DataTypes) => {
-  const category = sequelize.define(
+  const Category = sequelize.define(
     'Category',
     {
       id: {
@@ -13,7 +13,7 @@ const createCategoryModel = (sequelize, DataTypes) => {
       timestamps: false,
     },
   );
-  return category;
+  return Category;
 };
 
 module.exports = createCategoryModel

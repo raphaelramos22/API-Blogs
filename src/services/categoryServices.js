@@ -1,4 +1,4 @@
-const { category } = require('../database/models');
+const { Category } = require('../database/models');
 
 const categoryCreate = async (name) => {
   if (!name) {
@@ -7,7 +7,7 @@ const categoryCreate = async (name) => {
     throw e;
   }
 
-  const result = await category.create({ name });
+  const result = await Category.create({ name });
 
   return result;
 };
