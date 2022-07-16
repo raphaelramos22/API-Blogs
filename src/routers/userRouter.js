@@ -7,5 +7,6 @@ const routerUser = Router();
 routerUser.post('/', userController.userCreate);
 routerUser.use(authToken);
 routerUser.get('/', userController.userAll);
+routerUser.get('/:id', userController.userId);
 
 module.exports = routerUser;

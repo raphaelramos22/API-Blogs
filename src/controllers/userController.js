@@ -15,7 +15,18 @@ const userAll = async (_req, res) => {
   res.status(200).json(users);
 };
 
+const userId = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await userServices.userId(id);
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   userCreate,
   userAll,
+  userId,
 };
