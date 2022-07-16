@@ -1,6 +1,6 @@
 const { category } = require('../database/models');
 
-const CategoryCreate = async (name) => {
+const categoryCreate = async (name) => {
   if (!name) {
     const e = new Error('"name" is required');
     e.code = 'ValidationError';
@@ -13,5 +13,5 @@ const CategoryCreate = async (name) => {
 };
 
 module.exports = {
-  CategoryCreate,
+  categoryCreate,
 };
