@@ -29,8 +29,22 @@ const postId = async (req, res, next) => {
   }
 };
 
+const postUpdated = async (req, res, next) => {
+  const { title, content } = req.body;
+  const { id } = req.params;
+  const userEmail = req.user.email;
+   
+  try {
+    const result = await postServices.postUpdated(title, content, id, userEmail);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   postCreate,
   postsAll,
   postId,
+  postUpdated,
 };
