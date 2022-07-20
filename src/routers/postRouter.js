@@ -7,5 +7,6 @@ const routerPost = Router();
 routerPost.use(authToken);
 routerPost.post('/', postController.postCreate);
 routerPost.get('/', postController.postsAll);
+routerPost.get('/:id', postController.postId);
 
 module.exports = routerPost;

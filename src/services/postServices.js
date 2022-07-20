@@ -67,7 +67,7 @@ const postId = async (id) => {
   });
   if (!post) {
     const e = new Error('Post does not exist');
-    e.code = 'ValidationError';
+    e.code = 'NotFoundError';
     throw e;
   }
   return post;
