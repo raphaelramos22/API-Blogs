@@ -8,5 +8,6 @@ routerPost.use(authToken);
 routerPost.post('/', postController.postCreate);
 routerPost.get('/', postController.postsAll);
 routerPost.get('/:id', postController.postId);
+routerPost.put('/:id', postController.postUpdated);
 
 module.exports = routerPost;
