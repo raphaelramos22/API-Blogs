@@ -25,8 +25,8 @@ const userCreate = async (displayName, email, password, image) => {
     e.code = 'ConflictError';
     throw e;
   }
-  await User.create({ displayName, email, password, image });
-  const token = JWT.createToken(password);
+  const user = await User.create({ displayName, email, password, image });
+  const token = JWT.createToken(user);
   return token;
 };
 

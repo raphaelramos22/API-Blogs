@@ -2,12 +2,12 @@ const postServices = require('../services/postServices');
 
 const postCreate = async (req, res, next) => {
   const { title, content, categoryIds } = req.body;
-  const userPassword = req.user;
+  const userEmail = req.user.email;
   try {
-    const result = await postServices.postCreate(title, content, categoryIds, userPassword);
+    const result = await postServices.postCreate(title, content, categoryIds, userEmail);
     res.status(201).json(result);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 const postsAll = async (_req, res, next) => {

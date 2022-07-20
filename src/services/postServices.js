@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const config = require('../database/config/config');
 
 const sequelize = new Sequelize(config.development);
@@ -9,6 +10,10 @@ const schema = Joi.object({
   title: Joi.string().required(),
   content: Joi.string().required(),
   categoryIds: Joi.array().items(Joi.number()).min(1),
+});
+const schemaUpdated = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
 });
 
 const categoryNotExists = async () => {
@@ -29,7 +34,7 @@ const postCreate = async (title, content, categoryIds, user) => {
   const t = await sequelize.transaction();
    ValidationErro(title, content, categoryIds);
   try {
-    const { id } = await User.findOne({ where: { password: user } }, { transaction: t });
+    const { id } = await User.findOne({ where: { email: user } }, { transaction: t });
       await Category.findAll(
       { where: { id: categoryIds } }, { transaction: t },
       );
@@ -73,8 +78,43 @@ const postId = async (id) => {
   return post;
 };
 
+const ValidationUpdated = (title, content) => {
+  const { error } = schemaUpdated.validate({ title, content });
+    if (error) {
+      const e = new Error('Some required fields are missing');
+      e.code = 'ValidationError';
+      throw e;
+    }
+  };
+
+const postUpdated = async (title, content, id, email) => {
+  ValidationUpdated(title, content);
+  const user = await User.findOne({ where: { email } });
+
+  const posts = await BlogPost.findAll({
+    where: { [Op.and]: [{ id }, { userId: user.id }] } });
+
+  if (posts.length === 0) {
+    const e = new Error('Unauthorized user');
+    e.code = 'UnauthorizedError';
+    throw e;
+  }
+
+  await BlogPost.update({ title, content }, { where: { id } });
+
+  const result = await BlogPost.findOne({
+    where: { id },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', attributes: ['id', 'name'] },
+    ],
+  });
+  return result;
+};
+
 module.exports = {
   postCreate,
   postsAll,
   postId,
+  postUpdated,
 };
