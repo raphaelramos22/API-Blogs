@@ -47,7 +47,7 @@ const postCreate = async (title, content, categoryIds, user) => {
   }
 };
 
-const allPosts = async () => {
+const postsAll = async () => {
   const posts = await BlogPost.findAll({
     include: [
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
@@ -59,5 +59,5 @@ const allPosts = async () => {
 
 module.exports = {
   postCreate,
-  allPosts,
+  postsAll,
 };

@@ -2,9 +2,10 @@ const { Router } = require('express');
 const postController = require('../controllers/postController');
 const authToken = require('../services/authToken.services');
 
-const routePost = Router();
+const routerPost = Router();
 
-routePost.use(authToken);
-routePost.post('/', postController.postCreate);
+routerPost.use(authToken);
+routerPost.post('/', postController.postCreate);
+routerPost.get('/', postController.postsAll);
 
-module.exports = routePost;
+module.exports = routerPost;
