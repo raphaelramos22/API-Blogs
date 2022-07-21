@@ -112,9 +112,20 @@ const postUpdated = async (title, content, id, email) => {
   return result;
 };
 
+const postIdDelete = async (id, user) => {
+  const post = await postId(id);
+  if (post.user.id !== user.id) {
+ const e = new Error('Unauthorized user');
+  e.code = 'UnauthorizedError';
+  throw e;
+} 
+  await BlogPost.destroy({ where: { id } });
+};
+
 module.exports = {
   postCreate,
   postsAll,
   postId,
   postUpdated,
+  postIdDelete,
 };
